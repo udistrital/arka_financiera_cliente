@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DepuracionSaldosComponent } from './depuracion-saldos/depuracion-saldos.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { InformacionBasicaComponent } from './informacion-basica/informacion-basica.component';
 import { PagesComponent } from './pages.component';
+
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
@@ -12,12 +13,9 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
-      path: 'depuracion_saldos',
-      component: DepuracionSaldosComponent,
-    },
-    {
-      path: '', redirectTo: 'dashboard', pathMatch: 'full',
-    },
+      path: 'informacion_basica',
+      component: InformacionBasicaComponent,
+    }
   ]
     
 }]
