@@ -5,11 +5,13 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 const menu = [
-  //{ Nombre: "Inicio", Icono: "home", Url: "pages", Opciones: Array(0) },
-  { Id: 664, Nombre: "Depuración", Icono: "contact_support", Url: "pages/depuracion_saldos", TipoOpcion: "Menú", Opciones: null },
+  { Nombre: "Inicio", Icono: "home", Url: "pages", Opciones: Array(0) },
+  { Id: 664, Nombre: "Entradas", Icono: "account_box", Url: "pages/informacion_basica", TipoOpcion: "Menú", Opciones: null },
+  
 ]; 
 
 localStorage.setItem('menu', btoa(JSON.stringify(menu)));
+
 
 if (environment.production) {
   enableProdMode();
@@ -17,3 +19,4 @@ if (environment.production) {
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
+
