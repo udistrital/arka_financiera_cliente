@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
+import { UserService } from './pages/services/userService';
 declare let gtag: Function;
 
 @Component({
@@ -11,10 +12,11 @@ declare let gtag: Function;
 export class AppComponent implements OnInit {
   loadRouting = false;
   environment = environment;
-  loadingRouter: boolean = false;
-  title = 'arka-financiera-cliente';
+  loadingRouter: boolean;
+  title = 'configuracion-cliente';
   constructor(
-    private router: Router
+    private router: Router,
+    private userService: UserService 
   ) {
       this.router.events.subscribe(event => {
          if(event instanceof NavigationEnd){
@@ -29,11 +31,12 @@ export class AppComponent implements OnInit {
 
   
   ngOnInit(): void {
-    const oas = document.querySelector('ng-uui-oas') || new Element();
+    const oas = document.querySelector('ng-uui-oas');
 
     oas.addEventListener('user', (event: any) => {
       if (event.detail) {
         this.loadRouting = true;
+        this.userService.updateUser(event.detail);
       }
     });
 

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
@@ -7,9 +7,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule),
   },
-
   { path: '**', redirectTo: 'pages/dashboard', pathMatch: 'full' }
-
 ];
 
 @NgModule({
