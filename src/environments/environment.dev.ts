@@ -1,9 +1,9 @@
 export const environment = {
-    production: true,
+    production: false,
     entorno: 'test',
     autenticacion: true,
     notificaciones: false,
-    menuApps: true,
+    menuApps: false,
     appname: 'arka',
     appMenu: 'arka',
     NUXEO: {

@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "alternancia-cliente": {
+    "arkafinanciera-cliente": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -137,18 +137,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "alternancia-cliente:build"
+            "browserTarget": "arkafinanciera-cliente:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "alternancia-cliente:build:production"
+              "browserTarget": "arkafinanciera-cliente:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "alternancia-cliente:build"
+            "browserTarget": "arkafinanciera-cliente:build"
           }
         },
         "test": {
@@ -190,16 +190,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "alternancia-cliente:serve"
+            "devServerTarget": "arkafinanciera-cliente:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "alternancia-cliente:serve:production"
+              "devServerTarget": "arkafinanciera-cliente:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "alternancia-cliente"
+  "defaultProject": "arkafinanciera-cliente"
 }
