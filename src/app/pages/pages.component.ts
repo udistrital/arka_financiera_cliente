@@ -9,7 +9,7 @@ import { DatosIdentificacion } from '../@core/models/datos_identificacion';
 @Component({
   selector: 'app-pages',
   template: `<div *ngIf="loaded" class="main-container">
-              <div class="username-info">Bienvenido <br>{{terceroName}}</div>
+              <div class="username-info">Bienvenido </div>
               <router-outlet></router-outlet>
             </div>`,
 })
@@ -48,15 +48,6 @@ export class PagesComponent implements OnInit {
    
     this.loaded = true;
 
-    this.userService.user$.subscribe((data: any)=> {
-      if(data?data.userService?data.userService.documento?true:false:false:false) {
-        this.request.get(environment.TERCEROS_SERVICE, `datos_identificacion?query=Numero:`+ data.userService.documento)
-        .subscribe((datosIdentificacion: DatosIdentificacion)=> {
-          let tercero = datosIdentificacion[0].TerceroId;
-          this.terceroName = tercero?tercero.NombreCompleto?tercero.NombreCompleto:'':'';
-          this.userService.updateTercero(tercero);
-        })
-      }
-    })
+    
   }
 }

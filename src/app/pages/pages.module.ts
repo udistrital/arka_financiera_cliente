@@ -21,20 +21,13 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS,} from '@angular/material-moment-adapter';
 import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { SaludActualComponent } from './salud-actual/salud-actual.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { PreexistenciaComponent } from './preexistencia/preexistencia.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { OasGridColsDirective } from './directives/oas-grid-cols.directive';
-import { QrCodeModule } from 'ng-qrcode';
-import { QrComponent } from './qr/qr.component';
-
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { QrscanComponent } from './qrscan/qrscan.component';
-import { NgQrScannerModule } from 'angular2-qrscanner';
 import { UtilService } from './services/utilService';
 import { UserService } from './services/userService';
 import { InterceptorService } from '../loader/interceptor.service';
@@ -44,8 +37,6 @@ const pagesComponents = [
   DashboardComponent,
   PagesComponent,
   InformacionBasicaComponent,
-  SaludActualComponent,
-  PreexistenciaComponent,
 ];
 
 const materialModules = [
@@ -70,17 +61,14 @@ const materialModules = [
   declarations: [
     ...pagesComponents,
     OasGridColsDirective,
-    QrComponent,
-    QrscanComponent,
   ],
   imports: [
-    NgQrScannerModule,
+
     HttpClientModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     PagesRoutingModule,
-    QrCodeModule,
     Ng2SmartTableModule,
     ...materialModules
   ],
