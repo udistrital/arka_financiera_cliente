@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  entorno: 'test',
+  entorno: 'dev',
   autenticacion: true,
   notificaciones: false,
   menuApps: false,
