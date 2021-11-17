@@ -12,7 +12,7 @@ export const environment = {
     ADMINISTRATIVA_JBPM_SERVICE: 'https://autenticacion.portaloas.udistrital.edu.co/apioas/administrativa_jbpm/v1/',
     TOKEN: {
         AUTORIZATION_URL: 'https://autenticacion.portaloas.udistrital.edu.co/oauth2/authorize',
-        CLIENTE_ID: 'h2mfKBjx_8o51lpjgftKh2_0czQa',
+        CLIENTE_ID: '1Jbj540nU90EGQkaXQSRjWV2DDIa',
         RESPONSE_TYPE: 'id_token token',
         SCOPE: 'openid email',
         REDIRECT_URL: 'https://pruebasarkafinanciera.portaloas.udistrital.edu.co',
