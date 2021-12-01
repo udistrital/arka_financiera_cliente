@@ -484,7 +484,7 @@ export class InformacionBasicaComponent implements OnInit {
           this.elementotemp = elementos["elementos"];
         this.elementotempdos=this.elementotemp["elemento"];
             this.elementotempdos.forEach(elemento => {
-              console.log(elemento);
+             
               this.elemento.Cantidad=elemento["cantidad_asignada"];
         this.elemento.CuentaEntrada=elemento["cantidad_asignada"];
         this.elemento.CuentaSalida=elemento["grupo_cuentasalida"];
@@ -495,10 +495,12 @@ export class InformacionBasicaComponent implements OnInit {
         this.elemento.Valor=elemento["valor"];
         this.elemento.Subtotal=elemento["subtotal_sin_iva"];
         this.elemento.TipoBien=elemento["tipo_bien"];
+        console.log(this.elemento);
               this.elementos.push(this.elemento);
             });
         }
         this.cargarElementos();
+        this.sourceElementos.load(this.elementos);
         });
         
     }
