@@ -8,19 +8,19 @@
 
 
     </mat-card-header>
-    <form [formGroup]="formVacunacion" (ngSubmit)="save()">
+    <form [formGroup]="formBuscar" (ngSubmit)="buscarElemento()">
         <mat-card-content>
             <mat-form-field appearance="fill" [style.width.%]="100">   
-                <input matInput type="text" value="{{entrada.Vigencia}}">
+                <input matInput type="text" formControlName="id">
             </mat-form-field>
             <mat-form-field >
                 <mat-label>Buscar Por:</mat-label>
-                <mat-select formControlName="empresaVacunacion" >
+                <mat-select formControlName="tipoBusqueda" >
                     <mat-option selected value="PLACA">PLACA</mat-option>
                     <mat-option value="DESC">DESCRIPCION</mat-option>
                         
                 </mat-select>
-                <mat-error *ngIf="formVacunacion.get('empresaVacunacion').invalid">{{getErrorMessage(formVacunacion.get('empresaVacunacion'))}}</mat-error>
+               
             </mat-form-field>
            
                 
@@ -45,7 +45,7 @@
     
         </mat-card-header>
         
-        <form [formGroup]="formVacunacion" (ngSubmit)="save()">
+        <form [formGroup]="formElemento" (ngSubmit)="save()">
             <mat-card-content>
                 <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 2, xl: 2}" rowHeight="40px" gutterSize="10px">
                     <mat-grid-tile>
