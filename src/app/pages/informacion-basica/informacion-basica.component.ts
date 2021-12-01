@@ -498,7 +498,9 @@ export class InformacionBasicaComponent implements OnInit {
               this.elementos.push(this.elemento);
             });
         }
+        this.cargarElementos();
         });
+        
     }
   }
   onSaveConfirm(event) {
