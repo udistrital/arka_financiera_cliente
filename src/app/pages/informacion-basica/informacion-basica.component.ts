@@ -147,15 +147,15 @@ export class InformacionBasicaComponent implements OnInit {
 
  
   async save() {
-   let postElemento='{"_post_elemento":{"id":'+this.elemento.Id+',"fecha_salida":"'+this.formElemento.get('fecha_salida').value+
-   '"valor":'+ 10000+',"vida_util":'+ this.formElemento.get('nuevavidautil').value+'"valor_residual":'+ this.formElemento.get('nuevavalorresidual').value+', "usuario":"jgcastellanosj@correo.udistrital.edu.co"}}';
+   let postElemento='{"_post_elemento":{"id":'+this.elemento.Id+',"fecha_salida":"'+this.formElemento.get('nuevafechasalida').value+
+   '"valor":'+ +this.formElemento.get('nuevovalor').value+',"vida_util":'+ this.formElemento.get('nuevavidautil').value+'",valor_residual":'+ this.formElemento.get('nuevovalorresidual').value+', "usuario":"jgcastellanosj@correo.udistrital.edu.co"}}';
 
-   
+   console.log(postElemento);
     const isValidTerm = await this.utilService.termsAndConditional();
 
     if (isValidTerm) {
       Swal.fire({
-        title: 'Información de vacunación',
+        title: 'Información del elemento',
         text: `Se ${this.isPost ? 'almacenará' : 'actualizará'} la información del elemento`,
         icon: 'warning',
         showCancelButton: true,
