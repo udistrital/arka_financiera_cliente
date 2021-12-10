@@ -1,10 +1,9 @@
-<mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 2, xl: 2}" rowHeight="200px" gutterSize="10px">
-    <mat-grid-tile  colspan="1" rowspan="1">
+
 <mat-card class="card-oas">
 
     <mat-card-header>
 
-        <mat-card-title>Elemento</mat-card-title>
+        <mat-card-title>BUSCAR ELEMENTO</mat-card-title>
 
 
     </mat-card-header>
@@ -17,8 +16,8 @@
                 <mat-label>Buscar Por:</mat-label>
                 <mat-select formControlName="tipoBusqueda" >
                     <mat-option selected value="PLACA">PLACA</mat-option>
-                    <mat-option value="DESC">DESCRIPCION</mat-option>
-                        
+                    <mat-option value="DESCRIPCION">DESCRIPCION</mat-option>
+                    <mat-option value="ID">ID</mat-option>    
                 </mat-select>
                
             </mat-form-field>
@@ -35,22 +34,44 @@
         </mat-card-actions>
     </form>
 </mat-card>
-</mat-grid-tile>
-<mat-grid-tile  colspan="1" rowspan="4">
+<br>
+<mat-card class="card-oas">
+    <mat-card-header>
+        <mat-card-title>ELEMENTOS</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+    <div class="div-table" style="text-align:center">
+        <b><span></span></b>
+        <ng2-smart-table [settings]="settingsElementos" [source]="sourceElementos" (userRowSelect)="onRowSelect($event)" >
+        </ng2-smart-table>
+    </div> 
+        </mat-card-content>
+    
+</mat-card>
+<br>
+<mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 2, xl: 2}" rowHeight="290px" gutterSize="10px" >
+    <mat-grid-tile colspan="1" rowspan="3">
+
     <mat-card class="card-oas">
         <mat-card-header>
     
-            <mat-card-title>Elemento</mat-card-title>
+            <mat-card-title>ELEMENTO</mat-card-title>
     
     
         </mat-card-header>
         
-        <form [formGroup]="formElemento" (ngSubmit)="save()">
+      
             <mat-card-content>
-                <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 2, xl: 2}" rowHeight="40px" gutterSize="10px">
+                <mat-grid-list [appOasGridCols]="{xs: 1, sm: 1, md: 1, lg: 1, xl: 1}" rowHeight="60px" gutterSize="10px">
+                    <mat-grid-tile>
+                        <mat-form-field appearance="fill" [style.width.%]="100">
+                            <mat-label>ID</mat-label>
+                            <input matInput type="number" value="{{elemento.Id}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
                     <mat-grid-tile>
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Fecha Registro</mat-label>
+                        <mat-label>FECHA REGISTRO</mat-label>
                         <input matInput type="text"
                             value="{{elemento.FechaRegistro}}"
                             disabled>
@@ -58,248 +79,163 @@
                 </mat-grid-tile>
                     <mat-grid-tile>
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Descripcion</mat-label>
-                        <input matInput type="text"
-                            value="{{elemento.Descripcion}}"
-                            disabled>
+                        <mat-label>DESCRIPCIÓN</mat-label>
+                        
+                        <textarea matInput [(ngModel)]="elemento.Descripcion"  cdkTextareaAutosize
+                        cdkAutosizeMinRows="2"
+                          disabled></textarea>
+                           
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
             
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Tipo Bien</mat-label>
+                        <mat-label>TIPO BIEN</mat-label>
                         <input matInput type="text" [value]="elemento.TipoBien" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
             
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Cantidad</mat-label>
+                        <mat-label>CANTIDAD</mat-label>
                         <input matInput type="number" value="{{elemento.Cantidad}}" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
             
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Unidad</mat-label>
-                        <input matInput type="number" value="{{elemento.Unidad}}" disabled>
+                        <mat-label>UNIDAD</mat-label>
+                        <input matInput type="text" value="{{elemento.Unidad}}" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
             
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Valor</mat-label>
+                        <mat-label>VALOR</mat-label>
                         <input matInput type="number" value="{{elemento.Valor}}" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
             
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Iva</mat-label>
-                        <input matInput type="number" value="{{elemento.Iva}}" disabled>
+                        <mat-label>IVA</mat-label>
+                        <input matInput type="text" value="{{elemento.Iva}}" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
             
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Subtotal</mat-label>
+                        <mat-label>SUBTOTAL</mat-label>
                         <input matInput type="number" value="{{elemento.Subtotal}}" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
             
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Total Iva</mat-label>
+                        <mat-label>TOTAL IVA</mat-label>
                         <input matInput type="number" value="{{elemento.TotalIva}}" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
             
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Total Con Iva</mat-label>
+                        <mat-label>TOTAL CON IVA</mat-label>
                         <input matInput type="number" value="{{elemento.TotalConIva}}" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
+                
                 <mat-grid-tile>
-            
                     <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Entrada</mat-label>
-                        <input matInput type="number" value="{{elemento.Entrada}}" disabled>
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-            
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Cuenta Entrada</mat-label>
-                        <input matInput type="number" value="{{elemento.CuentaEntrada}}" disabled>
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-            
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Salida</mat-label>
-                        <input matInput type="number" value="{{elemento.Salida}}" disabled>
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-            
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Cuenta Salida</mat-label>
-                        <input matInput type="number" value="{{elemento.CuentaSalida}}" disabled>
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-            
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Fecha Salida</mat-label>
-                        <input matInput type="number" value="{{elemento.FechaSalida}}" disabled>
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-            
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Vida Util</mat-label>
+                        <mat-label>VIDA UTIL</mat-label>
                         <input matInput type="number" value="{{elemento.VidaUtil}}" disabled>
                     </mat-form-field>
                 </mat-grid-tile>
-                <mat-grid-tile>
+                
             
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Depreciacion</mat-label>
-                        <input matInput type="number" value="{{elemento.Depreciacion}}" disabled>
-                    </mat-form-field>
-                </mat-grid-tile>
-            
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Nueva Fecha Salida</mat-label>
-                        <input matInput type="number" value="{{elemento.NuevaFechaSalida}}" >
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Nuevo Valor</mat-label>
-                        <input matInput type="number" value="{{elemento.NuevoValor}}" >
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Nueva Vida Util</mat-label>
-                        <input matInput type="number" value="{{elemento.NuevaVidaUtil}}" >
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Nuevo Valor Residual</mat-label>
-                        <input matInput type="number" value="{{elemento.NuevoValorResidual}}" >
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Depreciación mes</mat-label>
-                        <input matInput type="number" value="{{elemento.DepreciacionMes}}" >
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-form-field appearance="fill" [style.width.%]="100">
-                        <mat-label>Depreciación Acumulada</mat-label>
-                        <input matInput type="number" value="{{elemento.DepreciacionAcumulada}}" >
-                    </mat-form-field>
-                </mat-grid-tile>
+                   
+                
          
                 </mat-grid-list>
           
     
         </mat-card-content>
-            <mat-card-actions>
-                <div style="margin: 1rem;">
-                    <button  mat-raised-button color="primary" type="submit" class="col-3 mt-2 mb-3">
-                        Guardar
-                    </button>
-                </div>
-            </mat-card-actions>
-        </form>
+           
+     
         
     </mat-card>
-    </mat-grid-tile>
-<mat-grid-tile colspan="1" rowspan="2">
-    <mat-card class="card-oas" *ngIf="elementos">
-        <mat-card-header>
-            <mat-card-title>Elementos</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-        <div class="div-table" style="text-align:center">
-            <b><span></span></b>
-            <ng2-smart-table [settings]="settingsElementos" [source]="sourceElementos" >
-            </ng2-smart-table>
-        </div> 
-            </mat-card-content>
-        
-    </mat-card>
+    <br>
+            <br>
+            <br>
+
 </mat-grid-tile>
-</mat-grid-list>
-<br />
-<mat-card class="card-oas" *ngIf="entrada">
+
+<mat-grid-tile>
+   
+<mat-card class="card-oas" *ngIf="entrada"  colspan="1" rowspan="1" >
     <mat-card-header>
-        <mat-card-title>Entradas</mat-card-title>
+        <mat-card-title>ENTRADA</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 3, xl: 4}" rowHeight="40px" gutterSize="10px">
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Vigencia</mat-label>
+                    <mat-label>VIGENCIA</mat-label>
                     <input matInput type="text" value="{{entrada.Vigencia}}" disabled>
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>N Entrada</mat-label>
+                    <mat-label>N° ENTRADA</mat-label>
                     <input matInput type="text" value="{{entrada.Consecutivo}} " disabled>
                 </mat-form-field>
             </mat-grid-tile>
            
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Tipo Contrato</mat-label>
+                    <mat-label>TIPO CONTRATO</mat-label>
                     <input matInput type="text" value="{{entrada.TipoContrato}}" disabled>
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Proveedor</mat-label>
+                    <mat-label>PROVEEDOR</mat-label>
                     <input matInput type="text" value="{{entrada.Proveedor}}" disabled>
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Fecha Ingreso</mat-label>
+                    <mat-label>FECHA INGRESO</mat-label>
                     <input matInput type="text" value="{{entrada.FechaRegistro}}" disabled>
                 </mat-form-field>
             </mat-grid-tile>
             <br>
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>No Contrato</mat-label>
+                    <mat-label>N° CONTRATO</mat-label>
                     <input matInput type="text" value="{{entrada.NumeroContrato}}" disabled>
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile>
                 <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label>Factura</mat-label>
+                    <mat-label>FACTURA</mat-label>
                     <input matInput type="text" value="{{entrada.NumeroFactura}}" disabled>
                 </mat-form-field>
             </mat-grid-tile>  
-           
-  
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>CUENTA ENTRADA</mat-label>
+                    <input matInput type="text" value="{{entrada.CuentaEntrada}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>  
+            
         </mat-grid-list>
      </mat-card-content>
 </mat-card>
-<br />
-
-<br>
-<mat-card class="card-oas" *ngIf="salida">
+</mat-grid-tile>
+<mat-grid-tile>
+<mat-card class="card-oas" *ngIf="salida"  colspan="1" rowspan="1">
     <mat-card-header>
-        <mat-card-title>Salidas</mat-card-title>
+        <mat-card-title>SALIDA</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 3, xl: 4}" rowHeight="40px" gutterSize="10px">
@@ -317,7 +253,7 @@
             </mat-grid-tile>
             <mat-grid-tile>
             <mat-form-field appearance="fill" [style.width.%]="100">
-                    <mat-label> FECHA  </mat-label>
+                    <mat-label>FECHA SALIDA </mat-label>
                     <input matInput type="text" value="{{salida.FechaRegistro}}" disabled>
                 </mat-form-field>
             </mat-grid-tile>
@@ -346,12 +282,98 @@
                 </mat-form-field>
             </mat-grid-tile>
            
-            <br>
+            <mat-grid-tile>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>CUENTA SALIDA</mat-label>
+                    <input matInput type="text" value="{{salida.CuentaSalida}}" disabled>
+                </mat-form-field>
+            </mat-grid-tile>  
              
         </mat-grid-list>
     </mat-card-content>
 
 </mat-card>
-
-<br>
-<br><br><br>
+</mat-grid-tile>
+<mat-grid-tile  colspan="1" rowspan="1">
+    <mat-card class="card-oas">
+        <mat-card-header>
+    
+            <mat-card-title>NUEVO REGISTRO</mat-card-title>
+    
+    
+        </mat-card-header>
+        
+        <form [formGroup]="formElemento" (ngSubmit)="save()">
+            <mat-card-content>
+                <mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 2, xl: 2}" rowHeight="40px" gutterSize="10px">
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill">
+                        <mat-label>NUEVA FECHA SALIDA</mat-label>
+                        <input formControlName="nuevafechasalida" matInput [matDatepicker]="datepicker" value="{{elemento.NuevaFechaSalida}}">
+                        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datepicker>
+                          <mat-datepicker-actions>
+                            <button mat-button matDatepickerCancel>Cancelar</button>
+                            <button mat-raised-button color="primary" matDatepickerApply>Aplicar</button>
+                          </mat-datepicker-actions>
+                        </mat-datepicker>
+                      </mat-form-field>
+                    
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [style.width.%]="100">
+                        <mat-label>NUEVO VALOR</mat-label>
+                        <input formControlName="nuevovalor" matInput type="number" value="{{elemento.NuevoValor}}" >
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [style.width.%]="100">
+                        <mat-label>NUEVA VIDA UTIL</mat-label>
+                        <input formControlName="nuevavidautil" matInput type="number" value="{{elemento.NuevaVidaUtil}}" >
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill" [style.width.%]="100">
+                        <mat-label>NUEVO VALOR RESIDUAL</mat-label>
+                        <input formControlName="nuevovalorresidual" matInput type="number" value="{{elemento.NuevoValorResidual}}" >
+                    </mat-form-field>
+                </mat-grid-tile>
+                
+         
+                </mat-grid-list>
+          
+    
+        </mat-card-content>
+            <mat-card-actions>
+                <div style="margin: 1rem;">
+                    <button  mat-raised-button color="primary" type="submit" class="col-3 mt-2 mb-3">
+                        GUARDAR
+                    </button>
+                </div>
+            </mat-card-actions>
+        </form>
+        
+    </mat-card>
+</mat-grid-tile>
+<mat-grid-tile>
+    <mat-card class="card-oas" *ngIf="salida"  colspan="1" rowspan="1">
+        <mat-card-header>
+            <mat-card-title>DEPRECIACIÓN KYRON</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            
+        </mat-card-content>
+    
+    </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card class="card-oas" *ngIf="salida"  colspan="1" rowspan="1">
+            <mat-card-header>
+                <mat-card-title>NUEVA DEPRECIACIÓN</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                
+            </mat-card-content>
+        
+        </mat-card>
+        </mat-grid-tile>

@@ -2,9 +2,11 @@ export class Entrada{
     Id: number;
     Vigencia: string;
     Consecutivo: number;
-    TipoContrato: number;
+    TipoContrato:string; 
     NumeroContrato: string;
     Proveedor: string;
-    FechaRegistro:  any;
-    NumeroFactura: string;      
+    FechaRegistro:  Date;
+    NumeroFactura: string;
+    CuentaEntrada:string;
+       
   }
