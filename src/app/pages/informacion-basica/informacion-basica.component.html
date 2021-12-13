@@ -338,8 +338,21 @@
                         <input formControlName="nuevovalorresidual" matInput type="number" value="{{elemento.NuevoValorResidual}}" >
                     </mat-form-field>
                 </mat-grid-tile>
-                
-         
+                <mat-form-field appearance="fill">
+                    <mat-label>Cuenta Salida</mat-label>
+                    <select matNativeControl required>
+                      <option value="164001">164001</option>
+                      <option value="16650118">16650118</option>
+                      <option value="16650212">16650212</option>
+                      <option value="16659021">16659021</option>
+
+               
+                    </select>
+                  </mat-form-field>
+                  <section class="example-section">
+                    <mat-checkbox class="example-margin">baja</mat-checkbox>
+                    
+                  </section>
                 </mat-grid-list>
           
     
