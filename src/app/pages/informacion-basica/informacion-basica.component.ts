@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup,FormControl,Validators, AbstractControl } from '@angular/forms';
 import { RequestManager } from '../services/requestManager';
 import Swal from 'sweetalert2';
@@ -23,6 +23,7 @@ import { ElementoArka } from 'src/app/@core/models/elemento_arka';
   styleUrls: ['./informacion-basica.component.scss']
 })
 export class InformacionBasicaComponent implements OnInit {
+  @Input('username') username: any;
   isPost: boolean = true;
   elemento: Elemento;
   formularioBusqueda: any;
@@ -30,9 +31,12 @@ export class InformacionBasicaComponent implements OnInit {
   selectedRows: any;
   entrada: any;
   salida: any;
+		actualizar:boolean;
   elementoArka: any;
   elementotemp:any;
   elementotempdos:any;
+		elementotemptres:any;
+		elementotempcuatro:any;
   sourceElementos: LocalDataSource = new LocalDataSource();
   settingsElementos: any;
   formBuscar: FormGroup;
@@ -43,6 +47,8 @@ export class InformacionBasicaComponent implements OnInit {
   nuevovalor=new FormControl();
   nuevavidautil=new FormControl();
   nuevovalorresidual=new FormControl();
+  activo=new FormControl();
+  cuentaSalida=new FormControl();
   constructor(
     private request: RequestManager,
     private userService: UserService,
@@ -52,7 +58,7 @@ export class InformacionBasicaComponent implements OnInit {
   ) {
     this.elemento={Id:null,Cantidad:null,CuentaEntrada:null,CuentaSalida:null,Depreciacion:null,DepreciacionAcumulada:null,DepreciacionMes:null,Descripcion:null,Entrada:null
       ,FechaRegistro:null,FechaSalida:null,Iva:null,NuevaFechaSalida:null,NuevaVidaUtil:null,NuevoValor:null,NuevoValorResidual:null,Salida:null,Subtotal:null,TipoBien:null
-      ,TotalConIva:null,TotalIva:null,Unidad:null,Valor:null,VidaUtil:null,Placa:null};  
+      ,TotalConIva:null,TotalIva:null,Unidad:null,Valor:null,VidaUtil:null,Placa:null, ValorCuota:null, ValorLibros:null, FDA:null};  
       this.formBuscar = new FormGroup({
         id: new FormControl(),
         tipoBusqueda: new FormControl()
@@ -61,10 +67,18 @@ export class InformacionBasicaComponent implements OnInit {
       nuevafechasalida:new FormControl(),
       nuevovalor:new FormControl(),
       nuevavidautil:new FormControl(),
-      nuevovalorresidual:new FormControl()
+      nuevovalorresidual:new FormControl(),
+      activo:new FormControl(),
+      cuentasalida:new FormControl()
    });
-   this.elementoArka=null;
-
+   this.elementoArka={ Id: null,
+    FechaSalida: null,
+    Valor: null,
+    VidaUtil:null, 
+    ValorResidual: null,
+    Usuario: null,
+    Activo:null};
+				actualizar:false;
  
     }
 
@@ -147,10 +161,30 @@ export class InformacionBasicaComponent implements OnInit {
 
  
   async save() {
-   let postElemento='{"_post_elemento":{"id":'+this.elemento.Id+',"fecha_salida":"'+this.formElemento.get('nuevafechasalida').value+
-   '"valor":'+ +this.formElemento.get('nuevovalor').value+',"vida_util":'+ this.formElemento.get('nuevavidautil').value+'",valor_residual":'+ this.formElemento.get('nuevovalorresidual').value+', "usuario":"jgcastellanosj@correo.udistrital.edu.co"}}';
+    let updated=0;
+    console.log(this.formElemento.get('nuevafechasalida').value);
+    if(this.formElemento.get('activo').value==null)
+    {
+      this.elementoArka.Activo=true;
 
+    } else if(this.formElemento.get('activo').value)
+				{
+					this.elementoArka.Activo=false;
+				}
+				else
+				{ 
+					 this.elementoArka.Activo=true;
+				}
+   let postElemento='{"_post_elemento":{"id":'+
+   this.elemento.Id+',"fecha_salida":'+
+   this.elementoArka.FechaSalida+',"valor":'+
+   this.formElemento.get('nuevovalor').value+',"vida_util":'+
+   this.formElemento.get('nuevavidautil').value+',"valor_residual":'+ 
+   this.formElemento.get('nuevovalorresidual').value+', "usuario":"'+
+   this.username+'", "activo":'+this.elementoArka.Activo+
+   ', "cuenta_salida":null}}';
    console.log(postElemento);
+   
     const isValidTerm = await this.utilService.termsAndConditional();
 
     if (isValidTerm) {
@@ -163,9 +197,41 @@ export class InformacionBasicaComponent implements OnInit {
         confirmButtonText: this.isPost ? 'Guardar' : 'Actualizar',
       }).then(result => {
 
+        if (this.isPost) {
+          this.request
+            .post(environment.ELEMENTO_ARKA_JBPM_SERVICE, '/elemento', JSON.parse(postElemento))
+            .subscribe((data: any) => {
+              console.log(data);
 
-        
               
+              if (data) {
+                Swal.close();
+                Swal.fire({
+                  title: `Registro correcto`,
+                  text: `Se ingresaron correctamente los registros`,
+                  icon: 'success',
+                }).then((result) => {
+                  if (result.value) {
+                    this.isPost = false;
+                    window.location.reload();
+                  }
+                })
+                this.isPost = false;
+              }
+
+            }),
+            error => {
+              Swal.fire({
+                title: 'error',
+                text: `${JSON.stringify(error)}`,
+                icon: 'error',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: `Aceptar`,
+              });
+            };
+        
+        }    
 
             
         
@@ -185,6 +251,8 @@ export class InformacionBasicaComponent implements OnInit {
   }
   public buscarElemento() {
     this.formularioBusqueda = this.formBuscar.value;
+    this.elemento=new Elemento();
+				this.elementos=[];
     if( this.formularioBusqueda["tipoBusqueda"]==='PLACA')
     {
       this.request.get(environment.ADMINISTRATIVA_JBPM_SERVICE, '/elemento_placa/'+this.formularioBusqueda["id"])
@@ -194,6 +262,7 @@ export class InformacionBasicaComponent implements OnInit {
         this.elementotemp = elementos["elementos"];
         this.elementotempdos=this.elementotemp["elemento"];
         this.elemento.Id=this.elementotempdos[0]["id"];
+        this.elemento.Placa=this.elementotempdos[0]["placa"];
         this.elemento.Cantidad=this.elementotempdos[0]["cantidad_asignada"];
         this.elemento.CuentaEntrada=this.elementotempdos[0]["grupo_cuentaentrada"];
         this.elemento.CuentaSalida=this.elementotempdos[0]["grupo_cuentasalida"];
@@ -224,7 +293,45 @@ export class InformacionBasicaComponent implements OnInit {
         this.salida.Ubicacion=this.elementotempdos[0]["ubicacion"];
         this.salida.Dependencia=this.elementotempdos[0]["dependencia"];
         this.salida.FechaRegistro=this.elementotempdos[0]["fecha_salida"];
+        this.elemento.NuevaFechaSalida=this.elementotempdos[0]["fecha_salida"];
+        this.elemento.NuevaVidaUtil=this.elementotempdos[0]["grupo_vidautil"];
+        this.elemento.NuevoValorResidual=0;
+							 
+								this.request.get(environment.ELEMENTO_ARKA_JBPM_SERVICE, '/elemento/'+this.elementotempdos[0]["id"])
+								.subscribe((elementosarka: any) => {
+									if (elementosarka) {
+										this.elementotemptres = elementosarka["elemento_arkaCollection"];
+										if(this.elementotemptres)
+										{
+											this.elementotempcuatro=this.elementotemp["elemento_arka"];
+											this.formElemento.controls['nuevovalor'].setValue(this.elementotempcuatro[0]["valor"]);
+											this.formElemento.controls['nuevavidautil'].setValue(this.elementotempcuatro[0]["grupo_vidautil"]);
+											this.formElemento.controls['nuevovalorresidual'].setValue(this.elementotempcuatro[0]["valor_residual"]);
+											this.formElemento.controls['cuentasalida'].setValue(this.elementotempcuatro[0]["grupo_cuentasalida"]);
+											this.formElemento.controls['nuevafechasalida'].setValue(this.elementotempcuatro[0]["fecha_salida"]);
+											this.actualizar=true;
+										} else {
+											this.actualizar=false;
+											this.formElemento.controls['nuevovalor'].setValue(this.elementotempdos[0]["valor"]);
+									this.formElemento.controls['nuevavidautil'].setValue(this.elementotempdos[0]["grupo_vidautil"]);
+									this.formElemento.controls['nuevovalorresidual'].setValue(0);
+									this.formElemento.controls['cuentasalida'].setValue(this.elementotempdos[0]["grupo_cuentasalida"]);
+									this.formElemento.controls['nuevafechasalida'].setValue(this.elementotempdos[0]["fecha_salida"]);
+	
+										}
        
+									}
+									else {
+										this.actualizar=false;
+										this.formElemento.controls['nuevovalor'].setValue(this.elementotempdos[0]["valor"]);
+								this.formElemento.controls['nuevavidautil'].setValue(this.elementotempdos[0]["grupo_vidautil"]);
+								this.formElemento.controls['nuevovalorresidual'].setValue(0);
+								this.formElemento.controls['cuentasalida'].setValue(this.elementotempdos[0]["grupo_cuentasalida"]);
+								this.formElemento.controls['nuevafechasalida'].setValue(this.elementotempdos[0]["fecha_salida"]);
+
+									}
+								});
+        this.calcularDepreciacion();
         
         }
       
@@ -296,8 +403,11 @@ export class InformacionBasicaComponent implements OnInit {
           this.salida.Ubicacion=this.elementotempdos[0]["ubicacion"];
           this.salida.Dependencia=this.elementotempdos[0]["dependencia"];
           this.salida.FechaRegistro=this.elementotempdos[0]["fecha_salida"];
-         
-          
+          this.elemento.NuevaFechaSalida=this.elementotempdos[0]["fecha_salida"];
+        this.elemento.NuevoValor=this.elementotempdos[0]["valor"];
+        this.elemento.NuevaVidaUtil=this.elementotempdos[0]["grupo_vidautil"];
+        this.elemento.NuevoValorResidual=0;
+        this.calcularDepreciacion();
           }
         
         }, (error) => {
@@ -305,11 +415,22 @@ export class InformacionBasicaComponent implements OnInit {
         //Swal.close();
         })
     }
+    
+       
   }
 
   calcularDepreciacion()
   {
-    
+    let currentDate = new Date();
+   
+    let fsalida=new Date(this.salida.FechaRegistro);
+    let meses= this.monthDiff(fsalida,currentDate );
+    console.log(meses);
+    this.elemento.ValorCuota=this.elemento.Valor/this.elemento.VidaUtil;
+    this.elemento.FDA=this.elemento.ValorCuota*meses;
+    this.elemento.ValorLibros=this.elemento.Valor-this.elemento.FDA;
+
+
 
   }
   onRowSelect(event) {
@@ -327,10 +448,12 @@ export class InformacionBasicaComponent implements OnInit {
       event.confirm.reject();
     }
   }
-  monthDiff(d1, d2) {
+  monthDiff(d1:Date, d2:Date) {
     var months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    console.log(months);
     months -= d1.getMonth();
+    console.log(months);
     months += d2.getMonth();
     return months <= 0 ? 0 : months;
 
