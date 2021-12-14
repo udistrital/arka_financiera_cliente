@@ -49,8 +49,8 @@
     
 </mat-card>
 <br>
-<mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 2, xl: 2}" rowHeight="290px" gutterSize="10px" >
-    <mat-grid-tile colspan="1" rowspan="3">
+<mat-grid-list [appOasGridCols]="{xs: 1, sm: 2, md: 2, lg: 2, xl: 2}" rowHeight="300px" gutterSize="10px" >
+    <mat-grid-tile colspan="1" rowspan="3" *ngIf="salida" >
 
     <mat-card class="card-oas">
         <mat-card-header>
@@ -67,6 +67,12 @@
                         <mat-form-field appearance="fill" [style.width.%]="100">
                             <mat-label>ID</mat-label>
                             <input matInput type="number" value="{{elemento.Id}}" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field appearance="fill" [style.width.%]="100">
+                            <mat-label>PLACA</mat-label>
+                            <input matInput type="text" value="{{elemento.Placa}}" disabled>
                         </mat-form-field>
                     </mat-grid-tile>
                     <mat-grid-tile>
@@ -295,7 +301,7 @@
 </mat-card>
 </mat-grid-tile>
 <mat-grid-tile  colspan="1" rowspan="1">
-    <mat-card class="card-oas">
+    <mat-card class="card-oas" *ngIf="salida">
         <mat-card-header>
     
             <mat-card-title>NUEVO REGISTRO</mat-card-title>
@@ -323,49 +329,80 @@
                 <mat-grid-tile>
                     <mat-form-field appearance="fill" [style.width.%]="100">
                         <mat-label>NUEVO VALOR</mat-label>
-                        <input formControlName="nuevovalor" matInput type="number" value="{{elemento.NuevoValor}}" >
+                        <input formControlName="nuevovalor" matInput type="number" value="{{elemento.NuevoValor | currency:'CO'}}" >
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <mat-form-field appearance="fill" [style.width.%]="100">
                         <mat-label>NUEVA VIDA UTIL</mat-label>
-                        <input formControlName="nuevavidautil" matInput type="number" value="{{elemento.NuevaVidaUtil}}" >
+                        <input formControlName="nuevavidautil" matInput type="number" value="{{elemento.NuevaVidaUtil  }}" >
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <mat-form-field appearance="fill" [style.width.%]="100">
                         <mat-label>NUEVO VALOR RESIDUAL</mat-label>
-                        <input formControlName="nuevovalorresidual" matInput type="number" value="{{elemento.NuevoValorResidual}}" >
+                        <input formControlName="nuevovalorresidual" matInput type="number" value="{{elemento.NuevoValorResidual | currency:'CO'}}" >
                     </mat-form-field>
                 </mat-grid-tile>
-                
+                <mat-grid-tile>
+                    <mat-form-field appearance="fill">
+                        <mat-label>CUENTA SALIDA</mat-label>
+                        <select formControlName="cuentasalida" matNativeControl>
+                          <option value="16800206">16800206</option>
+                          <option value="83900730">83900730</option>
+                          <option value="16750213">16750213</option>
+                          <option value="83900726">83900726</option>
+                          <option value="1715050101">1715050101</option>
+                          <option value="51111404">51111404</option>
+                          <option value="51112102">51112102</option>
+                          <option value="51111401">51111401</option>
+                          <option value="16700107">16700107</option>
+                          <option value="1715050102">1715050102</option>
+                          <option value="51114602">51114602</option>
+                          <option value="16550108">16550108</option>
+                          <option value="83900725">83900725</option>
+                          
+                          <option value="51119003">51119003</option>
+                          <option value="83900732">83900732</option>
+                          <option value="16550609">16550609</option>
+                          <option value="51119002">51119002</option>
+                          <option value="1715010102">1715010102</option>
+                          <option value="16650118">16650118</option>
+                          <option value="8315100733">8315100733</option>
+                          <option value="51116501">51116501</option>
+                          <option value="160501">160501</option>
+                          <option value="8315100723">8315100723</option>
+                          <option value="16659021">16659021</option>
+                          <option value="83900729">83900729</option>
+                          <option value="16600210">16600210</option>
+
+                          <option value="8315100724">8315100724</option>
+                          <option value="16700221">16700221</option>
+                          <option value="83900731">83900731</option>
+                          <option value="51115501">51115501</option>
+                          <option value="1715010102">1715010102</option>
+                          <option value="16650118">16650118</option>
+                          <option value="8315100733">8315100733</option>
+                          <option value="51116501">51116501</option>
+                          <option value="160501">160501</option>
+                          <option value="8315100723">8315100723</option>
+                          <option value="16659021">16659021</option>
+                          <option value="83900729">83900729</option>
+                          <option value="16600210">16600210</option>
+                          
+                        
+
+
+                        </select>
+                    </mat-form-field>
+                </mat-grid-tile>  
                      
                
-                    </select>
-                  </mat-form-field>
-                  <section class="example-section">
-                    <mat-checkbox class="example-margin">baja</mat-checkbox>
-                    
-                  </section>
-                </mat-grid-list>
-                
-                <mat-form-field appearance="fill">
-                    <mat-label>Cuenta Salida</mat-label>
-                    <select matNativeControl required>
-                      <option value="16800206">16800206</option>
-                      <option value="83900730">83900730</option>
-                      <option value="16750213">16750213</option>
-                      <option value="83900726">83900726</option>
-                      <option value="1715050101">1715050101</option>
-                      <option value="51111404">51111404</option>
-                      <option value="51112102">51112102</option>
-                      <option value="51111401">51111401</option>
-                      <option value="16700107">16700107</option>
-                      <option value="1715050102">1715050102</option>
-                      <option value="51114602">51114602</option>
-                      <option value="16550108">16550108</option>
-                      <option value="83900725">83900725</option>
-    
+                <mat-grid-tile>
+                   <mat-checkbox formControlName="activo" class="example-margin">¿BAJA?</mat-checkbox>
+                </mat-grid-tile>
+             
+            </mat-grid-list>    
         </mat-card-content>
             <mat-card-actions>
                 <div style="margin: 1rem;">
@@ -381,10 +418,21 @@
 <mat-grid-tile>
     <mat-card class="card-oas" *ngIf="salida"  colspan="1" rowspan="1">
         <mat-card-header>
-            <mat-card-title>DEPRECIACIÓN KYRON</mat-card-title>
+            <mat-card-title>DEPRECIACIÓN ARKA</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            
+            <mat-form-field appearance="fill" [style.width.%]="100">
+                <mat-label>VALOR CUOTA</mat-label>
+                <input matInput type="text" value="{{elemento.ValorCuota}}" disabled>
+            </mat-form-field>
+            <mat-form-field appearance="fill" [style.width.%]="100">
+                <mat-label>FDA</mat-label>
+                <input matInput type="text" value="{{elemento.FDA}}" disabled>
+            </mat-form-field>
+            <mat-form-field appearance="fill" [style.width.%]="100">
+                <mat-label>VALOR LIBROS</mat-label>
+                <input matInput type="text" value="{{elemento.ValorLibros}}" disabled>
+            </mat-form-field>
         </mat-card-content>
     
     </mat-card>
@@ -395,7 +443,18 @@
                 <mat-card-title>NUEVA DEPRECIACIÓN</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>VALOR CUOTA</mat-label>
+                    <input matInput type="text" value="{{elemento.ValorCuota}}" disabled>
+                </mat-form-field>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>FDA</mat-label>
+                    <input matInput type="text" value="{{elemento.FDA}}" disabled>
+                </mat-form-field>
+                <mat-form-field appearance="fill" [style.width.%]="100">
+                    <mat-label>VALOR LIBROS</mat-label>
+                    <input matInput type="text" value="{{elemento.ValorLibros}}" disabled>
+                </mat-form-field>
             </mat-card-content>
         
         </mat-card>

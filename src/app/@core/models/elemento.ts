@@ -24,4 +24,7 @@ export class Elemento{
     DepreciacionMes: number;
     DepreciacionAcumulada:number;
     Placa:string;
+    ValorCuota:number;
+    FDA:number;
+    ValorLibros;
   }
