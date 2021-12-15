@@ -1,7 +1,7 @@
 export class ElementoArka{
   
     Id: number;
-    FechaSalida: Date;
+    FechaSalida: string;
     Valor: number;
     VidaUtil:number; 
     ValorResidual: number;

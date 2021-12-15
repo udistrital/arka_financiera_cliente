@@ -17,7 +17,7 @@ export class Elemento{
     FechaSalida: Date;
     VidaUtil: number;
     Depreciacion:number;
-    NuevaFechaSalida: Date;
+    NuevaFechaSalida:string;
     NuevoValor: number;
     NuevaVidaUtil: number;
     NuevoValorResidual:number;
@@ -26,5 +26,10 @@ export class Elemento{
     Placa:string;
     ValorCuota:number;
     FDA:number;
-    ValorLibros;
+    ValorLibros:number;
+    Meses:number;
+    NuevoValorCuota:number;
+    NuevoFDA:number;
+    NuevoValorLibros:number;
+    NuevosMeses:number;
   }
