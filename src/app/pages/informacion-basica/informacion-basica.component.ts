@@ -15,7 +15,7 @@ import { analyzeAndValidateNgModules, NullTemplateVisitor } from '@angular/compi
 import { Entrada } from 'src/app/@core/models/entrada';
 import { Salida } from 'src/app/@core/models/salida';
 import { ElementoArka } from 'src/app/@core/models/elemento_arka';
-
+							
 
 @Component({
   selector: 'app-informacion-basica',
@@ -54,7 +54,8 @@ export class InformacionBasicaComponent implements OnInit {
     private userService: UserService,
     private utilService: UtilService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+				
   ) {
     this.elemento={Id:null,Cantidad:null,CuentaEntrada:null,CuentaSalida:null,Depreciacion:null,DepreciacionAcumulada:null,DepreciacionMes:null,Descripcion:null,Entrada:null
       ,FechaRegistro:null,FechaSalida:null,Iva:null,NuevaFechaSalida:null,NuevaVidaUtil:null,NuevoValor:null,NuevoValorResidual:null,Salida:null,Subtotal:null,TipoBien:null
@@ -79,7 +80,7 @@ export class InformacionBasicaComponent implements OnInit {
     ValorResidual: null,
     Usuario: null,
     Activo:null};
-				
+			
  
     }
 
@@ -183,23 +184,29 @@ export class InformacionBasicaComponent implements OnInit {
 				}
 				if(!this.actualizar)
 				{
+					  let fecha=new Date(this.formElemento.get('nuevafechasalida').value).toISOString();
+							fecha=fecha.substring(0,10);
 							postElemento='{"_post_elemento":{"id":'+
-							this.elemento.Id+',"fecha_salida":"'+
-							this.formElemento.get('nuevafechasalida').value+'","valor":'+
+							this.elemento.Id+',"fecha_salida":"'+fecha
+							+'","valor":'+
 							this.formElemento.get('nuevovalor').value+',"vida_util":'+
 							this.formElemento.get('nuevavidautil').value+',"valor_residual":'+ 
 							this.formElemento.get('nuevovalorresidual').value+', "usuario":"'+
 							this.username+'", "activo":'+this.elementoArka.Activo+
 							', "cuenta_salida":"'+ 
 							this.formElemento.get('cuentasalida').value+'"}}';
-							console.log(this.formElemento);
+							console.log(this.formElemento.get('nuevafechasalida').value);
+							console.log(fecha);
+							console.log(new Date(this.formElemento.get('nuevafechasalida').value).toISOString());
 							console.log(postElemento);
 		 }
 			else
 			{
+				let fecha=new Date(this.formElemento.get('nuevafechasalida').value).toISOString();
+							fecha=fecha.substring(0,10);		
 				 putElemento='{"_put_elemento_id":{"id":'+
 							this.elemento.Id+',"fecha_salida":"'+
-							this.formElemento.get('nuevafechasalida').value+'","valor":'+
+							fecha+'","valor":'+
 							this.formElemento.get('nuevovalor').value+',"vida_util":'+
 							this.formElemento.get('nuevavidautil').value+',"valor_residual":'+ 
 							this.formElemento.get('nuevovalorresidual').value+', "usuario":"'+
