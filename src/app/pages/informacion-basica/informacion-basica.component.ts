@@ -58,7 +58,8 @@ export class InformacionBasicaComponent implements OnInit {
   ) {
     this.elemento={Id:null,Cantidad:null,CuentaEntrada:null,CuentaSalida:null,Depreciacion:null,DepreciacionAcumulada:null,DepreciacionMes:null,Descripcion:null,Entrada:null
       ,FechaRegistro:null,FechaSalida:null,Iva:null,NuevaFechaSalida:null,NuevaVidaUtil:null,NuevoValor:null,NuevoValorResidual:null,Salida:null,Subtotal:null,TipoBien:null
-      ,TotalConIva:null,TotalIva:null,Unidad:null,Valor:null,VidaUtil:null,Placa:null, ValorCuota:null, ValorLibros:null, FDA:null};  
+      ,TotalConIva:null,TotalIva:null,Unidad:null,Valor:null,VidaUtil:null,Placa:null, ValorCuota:null, ValorLibros:null, FDA:null, Meses:null, NuevoFDA:null, NuevoValorCuota:null
+					,NuevoValorLibros:null,NuevosMeses:null};  
       this.formBuscar = new FormGroup({
         id: new FormControl(),
         tipoBusqueda: new FormControl()
@@ -78,7 +79,7 @@ export class InformacionBasicaComponent implements OnInit {
     ValorResidual: null,
     Usuario: null,
     Activo:null};
-				actualizar:false;
+				
  
     }
 
@@ -161,8 +162,13 @@ export class InformacionBasicaComponent implements OnInit {
 
  
   async save() {
-    let updated=0;
-    console.log(this.formElemento.get('nuevafechasalida').value);
+    let putElemento;
+				let postElemento;
+    console.log(this.formElemento.controls['cuentasalida']);
+				console.log(this.formElemento.controls['cuentasalida'].value);
+				console.log();
+				let prueba=Date.parse(this.formElemento.get('nuevafechasalida').value).toString();
+				console.log(prueba);
     if(this.formElemento.get('activo').value==null)
     {
       this.elementoArka.Activo=true;
@@ -175,30 +181,49 @@ export class InformacionBasicaComponent implements OnInit {
 				{ 
 					 this.elementoArka.Activo=true;
 				}
-   let postElemento='{"_post_elemento":{"id":'+
-   this.elemento.Id+',"fecha_salida":'+
-   this.elementoArka.FechaSalida+',"valor":'+
-   this.formElemento.get('nuevovalor').value+',"vida_util":'+
-   this.formElemento.get('nuevavidautil').value+',"valor_residual":'+ 
-   this.formElemento.get('nuevovalorresidual').value+', "usuario":"'+
-   this.username+'", "activo":'+this.elementoArka.Activo+
-   ', "cuenta_salida":null}}';
-   console.log(postElemento);
-   
+				if(!this.actualizar)
+				{
+							postElemento='{"_post_elemento":{"id":'+
+							this.elemento.Id+',"fecha_salida":"'+
+							this.formElemento.get('nuevafechasalida').value+'","valor":'+
+							this.formElemento.get('nuevovalor').value+',"vida_util":'+
+							this.formElemento.get('nuevavidautil').value+',"valor_residual":'+ 
+							this.formElemento.get('nuevovalorresidual').value+', "usuario":"'+
+							this.username+'", "activo":'+this.elementoArka.Activo+
+							', "cuenta_salida":"'+ 
+							this.formElemento.get('cuentasalida').value+'"}}';
+							console.log(this.formElemento);
+							console.log(postElemento);
+		 }
+			else
+			{
+				 putElemento='{"_put_elemento_id":{"id":'+
+							this.elemento.Id+',"fecha_salida":"'+
+							this.formElemento.get('nuevafechasalida').value+'","valor":'+
+							this.formElemento.get('nuevovalor').value+',"vida_util":'+
+							this.formElemento.get('nuevavidautil').value+',"valor_residual":'+ 
+							this.formElemento.get('nuevovalorresidual').value+', "usuario":"'+
+							this.username+'", "activo":'+this.elementoArka.Activo+
+							', "cuenta_salida":"'+ 
+							this.formElemento.get('cuentasalida').value	+'"}}';
+							console.log(putElemento);
+							
+			}
+
     const isValidTerm = await this.utilService.termsAndConditional();
 
     if (isValidTerm) {
       Swal.fire({
         title: 'Información del elemento',
-        text: `Se ${this.isPost ? 'almacenará' : 'actualizará'} la información del elemento`,
+        text: `Se ${!this.actualizar ? 'almacenará' : 'actualizará'} la información del elemento`,
         icon: 'warning',
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
-        confirmButtonText: this.isPost ? 'Guardar' : 'Actualizar',
+        confirmButtonText: !this.actualizar ? 'Guardar' : 'Actualizar',
       }).then(result => {
 
-        if (this.isPost) {
-          this.request
+        if (!this.actualizar) {
+									    this.request
             .post(environment.ELEMENTO_ARKA_JBPM_SERVICE, '/elemento', JSON.parse(postElemento))
             .subscribe((data: any) => {
               console.log(data);
@@ -231,7 +256,43 @@ export class InformacionBasicaComponent implements OnInit {
               });
             };
         
-        }    
+        }  else
+								{
+									
+									this.request
+									.put(environment.ELEMENTO_ARKA_JBPM_SERVICE,'/elemento/', JSON.parse(putElemento),this.elemento.Id)
+            .subscribe((data: any) => {
+              console.log(data);
+
+              
+              if (data) {
+                Swal.close();
+                Swal.fire({
+                  title: `Registro correcto`,
+                  text: `Se ingresaron correctamente los registros`,
+                  icon: 'success',
+                }).then((result) => {
+                  if (result.value) {
+                    this.isPost = false;
+                    window.location.reload();
+                  }
+                })
+                this.isPost = false;
+              }
+
+            }),
+            error => {
+              Swal.fire({
+                title: 'error',
+                text: `${JSON.stringify(error)}`,
+                icon: 'error',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: `Aceptar`,
+              });
+            };
+
+								} 
 
             
         
@@ -242,7 +303,7 @@ export class InformacionBasicaComponent implements OnInit {
   ngOnInit(): void {
     this.formBuscar = this.formBuilder.group({id: ['', Validators.required], tipoBusqueda:this.tipoBusqueda});
     this.cargarElementos();
-   
+    this.onChanges();
        
     
 
@@ -253,6 +314,8 @@ export class InformacionBasicaComponent implements OnInit {
     this.formularioBusqueda = this.formBuscar.value;
     this.elemento=new Elemento();
 				this.elementos=[];
+				this.salida=new Salida();
+				this.entrada=new Entrada();
     if( this.formularioBusqueda["tipoBusqueda"]==='PLACA')
     {
       this.request.get(environment.ADMINISTRATIVA_JBPM_SERVICE, '/elemento_placa/'+this.formularioBusqueda["id"])
@@ -296,19 +359,22 @@ export class InformacionBasicaComponent implements OnInit {
         this.elemento.NuevaFechaSalida=this.elementotempdos[0]["fecha_salida"];
         this.elemento.NuevaVidaUtil=this.elementotempdos[0]["grupo_vidautil"];
         this.elemento.NuevoValorResidual=0;
-							 
+								this.salida.FechaRegistro=this.salida.FechaRegistro.substring(0, 10);
+							 console.log( new Date());
 								this.request.get(environment.ELEMENTO_ARKA_JBPM_SERVICE, '/elemento/'+this.elementotempdos[0]["id"])
 								.subscribe((elementosarka: any) => {
 									if (elementosarka) {
 										this.elementotemptres = elementosarka["elemento_arkaCollection"];
-										if(this.elementotemptres)
+										this.elementotempcuatro=this.elementotemptres["elemento_arka"];
+									if(this.elementotempcuatro)
 										{
-											this.elementotempcuatro=this.elementotemp["elemento_arka"];
 											this.formElemento.controls['nuevovalor'].setValue(this.elementotempcuatro[0]["valor"]);
-											this.formElemento.controls['nuevavidautil'].setValue(this.elementotempcuatro[0]["grupo_vidautil"]);
+											this.formElemento.controls['nuevavidautil'].setValue(this.elementotempcuatro[0]["vida_util"]);
 											this.formElemento.controls['nuevovalorresidual'].setValue(this.elementotempcuatro[0]["valor_residual"]);
-											this.formElemento.controls['cuentasalida'].setValue(this.elementotempcuatro[0]["grupo_cuentasalida"]);
-											this.formElemento.controls['nuevafechasalida'].setValue(this.elementotempcuatro[0]["fecha_salida"]);
+											this.formElemento.controls['cuentasalida'].setValue(this.elementotempcuatro[0]["cuenta_salida"]);
+											this.elemento.NuevaFechaSalida=this.elementotempcuatro[0]["fecha_salida"]
+											this.elemento.NuevaFechaSalida=this.elemento.NuevaFechaSalida.substring(0, 10);
+											this.formElemento.controls['nuevafechasalida'].setValue(this.elemento.NuevaFechaSalida);
 											this.actualizar=true;
 										} else {
 											this.actualizar=false;
@@ -316,7 +382,7 @@ export class InformacionBasicaComponent implements OnInit {
 									this.formElemento.controls['nuevavidautil'].setValue(this.elementotempdos[0]["grupo_vidautil"]);
 									this.formElemento.controls['nuevovalorresidual'].setValue(0);
 									this.formElemento.controls['cuentasalida'].setValue(this.elementotempdos[0]["grupo_cuentasalida"]);
-									this.formElemento.controls['nuevafechasalida'].setValue(this.elementotempdos[0]["fecha_salida"]);
+									this.formElemento.controls['nuevafechasalida'].setValue(this.salida.FechaRegistro);
 	
 										}
        
@@ -327,7 +393,8 @@ export class InformacionBasicaComponent implements OnInit {
 								this.formElemento.controls['nuevavidautil'].setValue(this.elementotempdos[0]["grupo_vidautil"]);
 								this.formElemento.controls['nuevovalorresidual'].setValue(0);
 								this.formElemento.controls['cuentasalida'].setValue(this.elementotempdos[0]["grupo_cuentasalida"]);
-								this.formElemento.controls['nuevafechasalida'].setValue(this.elementotempdos[0]["fecha_salida"]);
+								this.formElemento.controls['nuevafechasalida'].setValue(this.salida.FechaRegistro);
+								
 
 									}
 								});
@@ -425,11 +492,16 @@ export class InformacionBasicaComponent implements OnInit {
    
     let fsalida=new Date(this.salida.FechaRegistro);
     let meses= this.monthDiff(fsalida,currentDate );
+				let nuevosmeses= this.monthDiff(new Date(this.elementoArka.FechaSalida),currentDate );
     console.log(meses);
     this.elemento.ValorCuota=this.elemento.Valor/this.elemento.VidaUtil;
     this.elemento.FDA=this.elemento.ValorCuota*meses;
     this.elemento.ValorLibros=this.elemento.Valor-this.elemento.FDA;
-
+				this.elemento.Meses=meses;
+				this.elemento.NuevosMeses=nuevosmeses;
+				this.elemento.NuevoValorCuota=(this.elemento.NuevoValor-this.elemento.NuevoValorResidual)/this.elemento.NuevaVidaUtil;
+				this.elemento.NuevoFDA=	this.elemento.NuevoValorCuota*nuevosmeses;
+				this.elemento.NuevoValorLibros=this.elemento.NuevoValor-this.elemento.NuevoFDA;
 
 
   }
@@ -458,4 +530,16 @@ export class InformacionBasicaComponent implements OnInit {
     return months <= 0 ? 0 : months;
 
   }
+		onChanges(): void {
+			this.formElemento.valueChanges.subscribe(val => {
+				  
+					 this.elementoArka.FechaSalida=val.nuevafechasalida;
+						console.log(val.nuevafechasalida);
+						console.log( this.elementoArka.FechaSalida);
+						this.elemento.NuevoValor=val.nuevovalor;
+						this.elemento.NuevoValorResidual=val.nuevovalorresidual;
+						this.elemento.NuevaVidaUtil=val.nuevavidautil;
+						this.calcularDepreciacion();
+			});
+	}
 }

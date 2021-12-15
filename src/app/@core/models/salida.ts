@@ -5,7 +5,7 @@ export class Salida{
     Sede: string;
     Dependencia: string;
     Funcionario: string;
-    FechaRegistro:  Date;
+    FechaRegistro:  string;
     CuentaSalida:string;  
     Ubicacion:string;  
   }
