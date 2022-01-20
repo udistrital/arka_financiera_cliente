@@ -329,7 +329,7 @@
                 <mat-grid-tile>
                     <mat-form-field appearance="fill" [style.width.%]="100">
                         <mat-label>NUEVO VALOR</mat-label>
-                        <input formControlName="nuevovalor" matInput type="number" value="{{elemento.NuevoValor}}" >
+                        <input formControlName="nuevovalor" matInputCommified matInput type="text" value="{{elemento.NuevoValor}}" >
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
@@ -341,29 +341,28 @@
                 <mat-grid-tile>
                     <mat-form-field appearance="fill" [style.width.%]="100">
                         <mat-label>NUEVO VALOR RESIDUAL</mat-label>
-                        <input formControlName="nuevovalorresidual" matInput type="number" value="{{elemento.NuevoValorResidual}}" >
+                        <input formControlName="nuevovalorresidual" matInputCommified matInput type="text" value="{{elemento.NuevoValorResidual}}" >
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <mat-form-field appearance="fill">
                         <mat-label>CUENTA SALIDA</mat-label>
                         <select formControlName="cuentasalida" matNativeControl>
-                          <option value="16800206">16800206</option>
+                          <option value="191023">191023</option>
+                          <option value="19102202">19102202</option>
+                          <option value="19100401">19100401</option>
+                          <option value="164001">164001</option>
+                          <option value="16659021">16659021</option>
+                          <option value="191021">191021</option>
+                          <option value="83900722">83900722</option>
+                          <option value="19100104">19100104</option>
+                          <option value="83900731">83900731</option>
                           <option value="83900730">83900730</option>
-                          <option value="16750213">16750213</option>
-                          <option value="83900726">83900726</option>
-                          <option value="1715050101">1715050101</option>
-                          <option value="51111404">51111404</option>
-                          <option value="51112102">51112102</option>
-                          <option value="51111401">51111401</option>
-                          <option value="16700107">16700107</option>
-                          <option value="1715050102">1715050102</option>
                           <option value="51114602">51114602</option>
                           <option value="16550108">16550108</option>
                           <option value="83900725">83900725</option>
-                          
                           <option value="51119003">51119003</option>
-                          <option value="83900732">83900732</option>
+                          <option value="83900731">83900731</option>
                           <option value="16550609">16550609</option>
                           <option value="51119002">51119002</option>
                           <option value="1715010102">1715010102</option>
@@ -375,25 +374,43 @@
                           <option value="16659021">16659021</option>
                           <option value="83900729">83900729</option>
                           <option value="16600210">16600210</option>
-
                           <option value="8315100724">8315100724</option>
-                          <option value="16700221">16700221</option>
-                          <option value="83900731">83900731</option>
-                          <option value="51115501">51115501</option>
-                          <option value="1715010102">1715010102</option>
-                          <option value="16650118">16650118</option>
-                          <option value="8315100733">8315100733</option>
-                          <option value="51116501">51116501</option>
-                          <option value="160501">160501</option>
-                          <option value="8315100723">8315100723</option>
-                          <option value="16659021">16659021</option>
+                          <option value="83900726">83900726</option>
+                          <option value="83900727">83900727</option>
+                          <option value="16800206">16800206</option>
                           <option value="83900729">83900729</option>
+                          <option value="8315100720">8315100720</option>
+                          <option value="16700221">16700221</option>
+                          <option value="16700107">16700107</option>
+                          <option value="16550108">16550108</option>
+                          <option value="16550609">16550609</option>
                           <option value="16600210">16600210</option>
-                          
-                        
-
-
-                        </select>
+                          <option value="16650212">16650212</option>
+                          <option value="16750213">16750213</option>
+                          <option value="16609001">16609001</option>
+                          <option value="16551114">16551114</option>
+                          <option value="83900725">83900725</option>
+                          <option value="19050501">19050501</option>
+                          <option value="16550502">16550502</option>
+                          <option value="83900732">83900732</option>
+                          <option value="19600716">19600716</option>
+                          <option value="19100118">19100118</option>
+                          <option value="19100102">19100102</option>
+                          <option value="19100117">19100117</option>
+                          <option value="19100101">19100101</option>
+                          <option value="19100108">19100108</option>
+                          <option value="19100103">19100103</option>
+                          <option value="1715010102">1715010102</option>
+                          <option value="1715010101">1715010101</option>
+                          <option value="16650118">16650118</option>
+                          <option value="1715900102">1715900102</option>
+                          <option value="1715900101">1715900101</option>
+                          <option value="19700701">19700701</option>
+                          <option value="19700822">19700822</option>
+                          <option value="8315100733">8315100733</option>
+                          <option value="160501">160501</option>
+                          <option value="19100110">19100110</option>
+                                  </select>
                     </mat-form-field>
                 </mat-grid-tile>  
                      
@@ -410,7 +427,11 @@
                         GUARDAR
                     </button>
                 </div>
-               
+                <div style="margin: 1rem;">
+                    <button  mat-raised-button color="primary" type="submit" class="col-3 mt-2 mb-3">
+                        RESTAURAR
+                    </button>
+                </div>
             </mat-card-actions>
         </form>
         
@@ -424,19 +445,19 @@
         <mat-card-content>
             <mat-form-field appearance="fill" [style.width.%]="100">
                 <mat-label>MESES</mat-label>
-                <input matInput type="text" value="{{elemento.Meses}}" disabled>
+                <input matInput matInputCommified type="text" value="{{elemento.Meses}}" disabled>
             </mat-form-field>
             <mat-form-field appearance="fill" [style.width.%]="100">
                 <mat-label>VALOR CUOTA</mat-label>
-                <input matInput type="text" value="{{elemento.ValorCuota}}" disabled>
+                <input matInput  matInputCommified type="text" value="{{elemento.ValorCuota}}" disabled>
             </mat-form-field>
             <mat-form-field appearance="fill" [style.width.%]="100">
                 <mat-label>FDA</mat-label>
-                <input matInput type="text" value="{{elemento.FDA}}" disabled>
+                <input matInput  matInputCommified type="text" value="{{elemento.FDA}}" disabled>
             </mat-form-field>
             <mat-form-field appearance="fill" [style.width.%]="100">
                 <mat-label>VALOR LIBROS</mat-label>
-                <input matInput type="text" value="{{elemento.ValorLibros}}" disabled>
+                <input matInput matInputCommified type="text" value="{{elemento.ValorLibros}}" disabled>
             </mat-form-field>
             
         </mat-card-content>
@@ -451,19 +472,19 @@
             <mat-card-content>
                 <mat-form-field appearance="fill" [style.width.%]="100">
                     <mat-label>MESES</mat-label>
-                    <input matInput type="text" value="{{elemento.NuevosMeses}}" disabled>
+                    <input matInput matInputCommified type="text" value="{{elemento.NuevosMeses}}" disabled>
                 </mat-form-field>
                 <mat-form-field appearance="fill" [style.width.%]="100">
                     <mat-label>VALOR CUOTA</mat-label>
-                    <input matInput type="text" value="{{elemento.NuevoValorCuota}}" disabled>
+                    <input matInput matInputCommified type="text"  value="{{elemento.NuevoValorCuota}}" disabled>
                 </mat-form-field>
                 <mat-form-field appearance="fill" [style.width.%]="100">
                     <mat-label>FDA</mat-label>
-                    <input matInput type="text" value="{{elemento.NuevoFDA}}" disabled>
+                    <input matInput matInputCommified type="text" value="{{elemento.NuevoFDA}}" disabled>
                 </mat-form-field>
                 <mat-form-field appearance="fill" [style.width.%]="100">
                     <mat-label>VALOR LIBROS</mat-label>
-                    <input matInput type="text" value="{{elemento.NuevoValorLibros}}" disabled>
+                    <input matInput matInputCommified type="text" value="{{elemento.NuevoValorLibros}}" disabled>
                 </mat-form-field>
                 
             </mat-card-content>
