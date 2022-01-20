@@ -15,7 +15,7 @@ import { analyzeAndValidateNgModules, NullTemplateVisitor } from '@angular/compi
 import { Entrada } from 'src/app/@core/models/entrada';
 import { Salida } from 'src/app/@core/models/salida';
 import { ElementoArka } from 'src/app/@core/models/elemento_arka';
-							
+import {numberWithCommas} from '../helpers/helpers';							
 
 @Component({
   selector: 'app-informacion-basica',
