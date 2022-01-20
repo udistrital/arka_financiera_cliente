@@ -367,7 +367,6 @@ export class InformacionBasicaComponent implements OnInit {
         this.elemento.NuevaVidaUtil=this.elementotempdos[0]["grupo_vidautil"];
         this.elemento.NuevoValorResidual=0;
 								this.salida.FechaRegistro=this.salida.FechaRegistro.substring(0, 10);
-							 console.log( new Date());
 								this.request.get(environment.ELEMENTO_ARKA_JBPM_SERVICE, '/elemento/'+this.elementotempdos[0]["id"])
 								.subscribe((elementosarka: any) => {
 									if (elementosarka) {
@@ -530,9 +529,7 @@ export class InformacionBasicaComponent implements OnInit {
   monthDiff(d1:Date, d2:Date) {
     var months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
-    console.log(months);
     months -= d1.getMonth();
-    console.log(months);
     months += d2.getMonth();
     return months <= 0 ? 0 : months;
 
@@ -541,8 +538,7 @@ export class InformacionBasicaComponent implements OnInit {
 			this.formElemento.valueChanges.subscribe(val => {
 				  
 					 this.elementoArka.FechaSalida=val.nuevafechasalida;
-						console.log(val.nuevafechasalida);
-						console.log( this.elementoArka.FechaSalida);
+					
 						this.elemento.NuevoValor=val.nuevovalor;
 						this.elemento.NuevoValorResidual=val.nuevovalorresidual;
 						this.elemento.NuevaVidaUtil=val.nuevavidautil;
