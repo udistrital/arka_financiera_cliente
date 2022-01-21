@@ -11,13 +11,15 @@
         <mat-card-content>
             <mat-form-field appearance="fill" [style.width.%]="100">   
                 <input matInput type="text" formControlName="id">
+                <input matInput type="text" formControlName="vigencia">
             </mat-form-field>
             <mat-form-field >
                 <mat-label>Buscar Por:</mat-label>
                 <mat-select formControlName="tipoBusqueda" >
                     <mat-option selected value="PLACA">PLACA</mat-option>
                     <mat-option value="DESCRIPCION">DESCRIPCION</mat-option>
-                    <mat-option value="ID">ID</mat-option>    
+                    <mat-option value="ID">ID</mat-option>
+                    <mat-option value="ENTRADA">ENTRADA</mat-option>       
                 </mat-select>
                
             </mat-form-field>
