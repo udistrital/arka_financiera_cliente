@@ -135,6 +135,18 @@ export class InformacionBasicaComponent implements OnInit {
           editable: false,
           valuePrepareFunction: (value) => value,
         },
+        Vigencia: {
+          title: 'VIGENCIA',
+          filter: false,
+          editable: false,
+          valuePrepareFunction: (value) => value,
+        },
+        ConsecutivoEntrada: {
+          title: 'Entrada',
+          filter: false,
+          editable: false,
+          valuePrepareFunction: (value) => value,
+        },
         Placa: {
           title: 'PLACA',
           filter: false,
@@ -319,12 +331,13 @@ export class InformacionBasicaComponent implements OnInit {
   }
   public buscarElemento() {
     this.formularioBusqueda = this.formBuscar.value;
-    this.elemento=new Elemento();
-				this.elementos=[];
-				this.salida=new Salida();
-				this.entrada=new Entrada();
+   
     if( this.formularioBusqueda["tipoBusqueda"]==='PLACA')
     {
+      this.elemento=new Elemento();
+      this.elementos=[];
+      this.salida=new Salida();
+      this.entrada=new Entrada();
       this.request.get(environment.ADMINISTRATIVA_JBPM_SERVICE, '/elemento_placa/'+this.formularioBusqueda["id"])
     .subscribe((elementos: any) => {
       if (elementos) {
@@ -414,6 +427,10 @@ export class InformacionBasicaComponent implements OnInit {
       })
     } else if (this.formularioBusqueda["tipoBusqueda"]==='DESCRIPCION')
     {
+      this.elemento=new Elemento();
+      this.elementos=[];
+      this.salida=new Salida();
+      this.entrada=new Entrada();
       this.elementos=[];
       this.request.get(environment.ADMINISTRATIVA_JBPM_SERVICE, '/elemento_descripcion/'+this.formularioBusqueda["id"].toLowerCase())
       .subscribe((elementos: any) => {
@@ -436,8 +453,104 @@ export class InformacionBasicaComponent implements OnInit {
         this.sourceElementos.load(this.elementos);
         });
         
-    } else
+    } else if( this.formularioBusqueda["tipoBusqueda"]==='ENTRADA')
     {
+      this.elemento=new Elemento();
+      this.elementos=[];
+      this.salida=new Salida();
+      this.entrada=new Entrada();
+      this.request.get(environment.ADMINISTRATIVA_JBPM_SERVICE, '/entrada/'+this.formularioBusqueda["id"]+"/"+this.formularioBusqueda["id"])
+    .subscribe((elementos: any) => {
+      if (elementos) {
+        
+        this.elementotemp = elementos["elementos"];
+        this.elementotempdos=this.elementotemp["elemento"];
+        this.elemento.Id=this.elementotempdos[0]["id"];
+        this.elemento.Placa=this.elementotempdos[0]["placa"];
+        this.elemento.Cantidad=this.elementotempdos[0]["cantidad_asignada"];
+        this.elemento.CuentaEntrada=this.elementotempdos[0]["grupo_cuentaentrada"];
+        this.elemento.CuentaSalida=this.elementotempdos[0]["grupo_cuentasalida"];
+        this.elemento.Descripcion=this.elementotempdos[0]["descripcion_elemento"];
+        this.elemento.FechaRegistro=this.elementotempdos[0]["fecha_registro"];
+        this.elemento.Iva=this.elementotempdos[0]["iva"];
+        this.elemento.TotalIva=this.elementotempdos[0]["total_iva"];
+        this.elemento.VidaUtil=this.elementotempdos[0]["grupo_vidautil"];
+        this.elemento.TotalConIva=this.elementotempdos[0]["total_iva_con"];
+        this.elemento.Unidad=this.elementotempdos[0]["unidad"];
+        this.elemento.Valor=this.elementotempdos[0]["valor"];
+        this.elemento.Subtotal=this.elementotempdos[0]["subtotal_sin_iva"];
+        this.elemento.TipoBien=this.elementotempdos[0]["tipo_bien"];
+        this.entrada=new Entrada();
+        this.entrada.Vigencia=this.elementotempdos[0]["vigencia"];
+        this.entrada.Consecutivo=this.elementotempdos[0]["consecutivo_entrada"];
+        this.entrada.FechaRegistro=this.elementotempdos[0]["fecha_entrada"];
+        this.entrada.Proveedor=this.elementotempdos[0]["proveedor"];
+        this.entrada.TipoContrato=this.elementotempdos[0]["tipo_contrato"];
+        this.entrada.Factura=this.elementotempdos[0]["numero_factura"];
+        this.entrada.NumeroContrato=this.elementotempdos[0]["numero_contrato"];
+        this.salida=new Salida();
+        this.salida.CuentaSalida=this.elementotempdos[0]["grupo_cuentasalida"];
+        this.salida.Vigencia=this.elementotempdos[0]["vigencia"];
+        this.salida.Consecutivo=this.elementotempdos[0]["consecutivo_salida"];
+        this.salida.Sede=this.elementotempdos[0]["sede"];
+        this.salida.Funcionario=this.elementotempdos[0]["funcionario"];
+        this.salida.Ubicacion=this.elementotempdos[0]["ubicacion"];
+        this.salida.Dependencia=this.elementotempdos[0]["dependencia"];
+        this.salida.FechaRegistro=this.elementotempdos[0]["fecha_salida"];
+        this.elemento.NuevaFechaSalida=this.elementotempdos[0]["fecha_salida"];
+        this.elemento.NuevaVidaUtil=this.elementotempdos[0]["grupo_vidautil"];
+        this.elemento.NuevoValorResidual=0;
+								this.salida.FechaRegistro=this.salida.FechaRegistro.substring(0, 10);
+								this.request.get(environment.ELEMENTO_ARKA_JBPM_SERVICE, '/elemento/'+this.elementotempdos[0]["id"])
+								.subscribe((elementosarka: any) => {
+									if (elementosarka) {
+										this.elementotemptres = elementosarka["elemento_arkaCollection"];
+										this.elementotempcuatro=this.elementotemptres["elemento_arka"];
+									if(this.elementotempcuatro)
+										{
+											this.formElemento.controls['nuevovalor'].setValue(this.elementotempcuatro[0]["valor"]);
+											this.formElemento.controls['nuevavidautil'].setValue(this.elementotempcuatro[0]["vida_util"]);
+											this.formElemento.controls['nuevovalorresidual'].setValue(this.elementotempcuatro[0]["valor_residual"]);
+											this.formElemento.controls['cuentasalida'].setValue(this.elementotempcuatro[0]["cuenta_salida"]);
+											this.elemento.NuevaFechaSalida=this.elementotempcuatro[0]["fecha_salida"]
+											this.elemento.NuevaFechaSalida=this.elemento.NuevaFechaSalida.substring(0, 10);
+											this.formElemento.controls['nuevafechasalida'].setValue(this.elemento.NuevaFechaSalida);
+											this.actualizar=true;
+										} else {
+											this.actualizar=false;
+											this.formElemento.controls['nuevovalor'].setValue(this.elementotempdos[0]["valor"]);
+									this.formElemento.controls['nuevavidautil'].setValue(this.elementotempdos[0]["grupo_vidautil"]);
+									this.formElemento.controls['nuevovalorresidual'].setValue(0);
+									this.formElemento.controls['cuentasalida'].setValue(this.elementotempdos[0]["grupo_cuentasalida"]);
+									this.formElemento.controls['nuevafechasalida'].setValue(this.salida.FechaRegistro);
+	
+										}
+       
+									}
+									else {
+										this.actualizar=false;
+										this.formElemento.controls['nuevovalor'].setValue(this.elementotempdos[0]["valor"]);
+								this.formElemento.controls['nuevavidautil'].setValue(this.elementotempdos[0]["grupo_vidautil"]);
+								this.formElemento.controls['nuevovalorresidual'].setValue(0);
+								this.formElemento.controls['cuentasalida'].setValue(this.elementotempdos[0]["grupo_cuentasalida"]);
+								this.formElemento.controls['nuevafechasalida'].setValue(this.salida.FechaRegistro);
+								
+
+									}
+								});
+        this.calcularDepreciacion();
+        
+        }
+      
+      }, (error) => {
+      console.log(error);
+      //Swal.close();
+      })
+    } else
+
+
+    {
+      
       this.request.get(environment.ADMINISTRATIVA_JBPM_SERVICE, '/elemento_id/'+this.elemento.Id)
       .subscribe((elementos: any) => {
         if (elementos) {
