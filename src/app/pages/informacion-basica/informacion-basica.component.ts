@@ -110,6 +110,12 @@ export class InformacionBasicaComponent implements OnInit {
       edit: false,
       delete: false},
       columns: {
+        Id: {
+          title: 'ID',
+          filter: false,
+          editable: false,
+          valuePrepareFunction: (value) => value,
+        },
         Descripcion: {
           title: 'DESCRIPCION',
           filter: false,
@@ -142,7 +148,7 @@ export class InformacionBasicaComponent implements OnInit {
           valuePrepareFunction: (value) => value,
         },
         ConsecutivoEntrada: {
-          title: 'Entrada',
+          title: 'ENTRADA',
           filter: false,
           editable: false,
           valuePrepareFunction: (value) => value,
@@ -550,6 +556,8 @@ export class InformacionBasicaComponent implements OnInit {
 
 
     {
+      if(this.elemento.Id==null)
+      this.elemento.Id=this.formularioBusqueda["id"];
       
       this.request.get(environment.ADMINISTRATIVA_JBPM_SERVICE, '/elemento_id/'+this.elemento.Id)
       .subscribe((elementos: any) => {
